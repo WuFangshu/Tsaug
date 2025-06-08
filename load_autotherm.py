@@ -4,23 +4,22 @@ import pandas as pd
 from tqdm import tqdm
 import os
 
-# 打印当前目录（让你知道 CSV 会保存在哪里）
-print("📁 当前目录为：", os.getcwd())
+# Print current working directory (to show where the CSV will be saved)
+print("Current working directory:", os.getcwd())
 
-# 加载数据（含提示）
-print("⏳ 正在从 Hugging Face 加载 AutoTherm 数据集...")
+# Load dataset from Hugging Face
+print("Loading AutoTherm dataset from Hugging Face...")
 dataset = load_dataset("kopetri/AutoTherm")
 train_data = dataset["train"]
 
-# 转为 DataFrame（可加进度条展示大小）
-print(f"✅ 数据加载完成，共有 {len(train_data)} 条记录。")
+# Show number of records
+print(f"Dataset loaded successfully with {len(train_data)} records.")
 
-# 转换为 pandas DataFrame
-print("📄 正在转换为 DataFrame...")
+# Convert to pandas DataFrame
+print("Converting dataset to pandas DataFrame...")
 df = pd.DataFrame(train_data)
 
-
-# 保留以下特征列
+# Select relevant feature columns and label
 features = [
     "Age", "Gender", "Weight", "Height", "Bodyfat", "Bodytemp",
     "Sport-Last-Hour", "Time-Since-Meal", "Tiredness",
@@ -33,12 +32,12 @@ features = [
 ]
 label = "Label"
 
-print("🧪 保留特征列 + 标签列...")
+print("Filtering selected feature columns and label...")
 df = df[features + [label]]
 
-# 保存为 CSV（在当前路径）
+# Save as CSV
 save_path = "autotherm_full_features.csv"
 df.to_csv(save_path, index=False)
 
-print(f"✅ 保存完成！文件已写入：{save_path}")
-print(f"📊 保存的数据大小：{df.shape[0]} 行, {df.shape[1]} 列")
+print(f"Saved to file: {save_path}")
+print(f"Saved data shape: {df.shape[0]} rows, {df.shape[1]} columns")
